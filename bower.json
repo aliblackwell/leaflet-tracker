@@ -1,0 +1,19 @@
+{
+  "name": "leaflet-tracker",
+  "version": "0.0.0",
+  "homepage": "https://github.com/aliblackwell/leaflet-tracker",
+  "authors": [
+    "aliblackwell <aliblackwell@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui": "~1.12.3"
+  }
+}

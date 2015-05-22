@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leafleting Map</title>
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.7.1.min.js"></script>
+
+  <!-- firebase -->
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="js/done.js"></script>
+</head>
+<body>
+  <div id="map-canvas"></div>
+  <section id="controls">
+    <ul>
+      <li id="load-campaign">Load campaign</li>
+      <li id="canvassing" class="add-shape">Add canvassing</li>
+      <li id="leafleting" class="add-shape">Add leafleting</li>
+      <li id="both" class="add-shape">Add both</li>
+      <li id="saved">Saved</li>
+    </ul>
+  </section>
+
+  <script id="campaign-template" type="text/x-handlebars-template">
+    <li data-campaign-index='{{index}}' class="campaign">Campaign: {{candidate}}.</li>
+  </script>
+
+
+
+</body>
+</html>
