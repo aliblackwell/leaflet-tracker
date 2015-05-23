@@ -1,7 +1,7 @@
 "use strict";
 
 var dataBase = new Firebase('https://sweltering-fire-9328.firebaseio.com/dfgdfg');
-var locationsRef, map, boundariesRef, activity, drawingManager;
+var locationsRef, map, activity, drawingManager;
 var drawnShapes = [];
 
 // Campaign info will eventually come from Firebase
@@ -24,6 +24,7 @@ function initialize() {
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),
     mapOptions);
+
   $('#load-campaign').on('click', function(){
     loadCampaigns();
   });
@@ -33,10 +34,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 function loadCampaigns() {
   $('.add-shape').hide();
-  // Clear the map
+  // Clear the map of shapes
   for (var i=0; i<drawnShapes.length; i++) {
     drawnShapes[i].setMap(null);
   }
+  // Clear the map of boundaries
+  map.data.forEach(function(feature) {
+    map.data.remove(feature);
+  });
+
   // Load the campaign template
   var theTemplateScript = $("#campaign-template").html();
   var theTemplate = Handlebars.compile(theTemplateScript);
@@ -64,8 +70,59 @@ function chooseCampaign(el) {
 
    enableDrawing(map);
 
+   loadBoundary(campaign.boundaryData);
 }
 
+function loadBoundary(boundary) {
+  $.ajax({
+    url: boundary,
+    success: function(data){
+      var geoJSON = {
+        type: "Feature",
+        geometry: data
+      }
+      map.data.addGeoJson(geoJSON);
+      zoom(map);
+
+    }
+  })
+
+  map.data.setStyle({
+    fillColor: 'green'
+  });
+}
+
+/**
+ * Update a map's viewport to fit each geometry in a dataset
+ * @param {google.maps.Map} map The map to adjust
+ */
+function zoom(map) {
+  var bounds = new google.maps.LatLngBounds();
+  map.data.forEach(function(feature) {
+    processPoints(feature.getGeometry(), bounds.extend, bounds);
+  });
+  map.fitBounds(bounds);
+}
+
+/**
+ * Process each point in a Geometry, regardless of how deep the points may lie.
+ * @param {google.maps.Data.Geometry} geometry The structure to process
+ * @param {function(google.maps.LatLng)} callback A function to call on each
+ *     LatLng point encountered (e.g. Array.push)
+ * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
+ *     myArray)
+ */
+function processPoints(geometry, callback, thisArg) {
+  if (geometry instanceof google.maps.LatLng) {
+    callback.call(thisArg, geometry);
+  } else if (geometry instanceof google.maps.Data.Point) {
+    callback.call(thisArg, geometry.get());
+  } else {
+    geometry.getArray().forEach(function(g) {
+      processPoints(g, callback, thisArg);
+    });
+  }
+}
 
 
 
