@@ -17,20 +17,11 @@ var campaigns = [
   }
 ];
 
-function initialize() {
-  var mapOptions = {
-    center: new google.maps.LatLng(51.5291832,-0.0270462),
-    zoom: 14
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-    mapOptions);
-
-  $('#load-campaign').on('click', function(){
+$(function() {
+  $('.load-campaign').on('click', function(){
     loadCampaigns();
   });
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
+})
 
 function loadCampaigns() {
   $('.add-shape').hide();
@@ -38,10 +29,13 @@ function loadCampaigns() {
   for (var i=0; i<drawnShapes.length; i++) {
     drawnShapes[i].setMap(null);
   }
-  // Clear the map of boundaries
-  map.data.forEach(function(feature) {
-    map.data.remove(feature);
-  });
+
+  if (map) {
+    // Clear the map of boundaries
+    map.data.forEach(function(feature) {
+      map.data.remove(feature);
+    });
+  }
 
   // Load the campaign template
   var theTemplateScript = $("#campaign-template").html();
@@ -63,6 +57,9 @@ function chooseCampaign(el) {
   $('.campaign').hide();
    var campaign = campaigns[$(el).attr('data-campaign-index')];
    locationsRef = new Firebase(campaign.locationData);
+
+   map = new google.maps.Map(document.getElementById('map-canvas'), {});
+
    // Load shapes
    locationsRef.once('value', function(snapshot){
      drawShapes(snapshot.val(), map);
@@ -88,7 +85,11 @@ function loadBoundary(boundary) {
   })
 
   map.data.setStyle({
-    fillColor: 'green'
+    fillColor: 'green',
+    fillOpacity: 0,
+    strokeColor: '#000000',
+    strokeOpacity: 0.5,
+    strokeWeight: 2
   });
 }
 
