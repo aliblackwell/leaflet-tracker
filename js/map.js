@@ -12,8 +12,8 @@ google.maps.event.addDomListener(window, "load", function() {
 
   // Create a client instance
   var client = new Keen({
-    projectId: "555a3b7859949a3cbebcdd14",
-    readKey: "ca228eead012bf11a4d1fd4dc230b4b71a0224d169dfb1df6b9c6b3a498cb63174516593eb4046673009bd98864966f9a41316816923fdc719c03f9302387512bb3c690beda7da7f35ef59901a4518631a61de3336141f57917f206a8ea5167af60c0bdf006e60d2706fee3adc7b91b4"
+    projectId: "XXXX",
+    readKey: "XXXX"
   });
 
   var extraction = new Keen.Query("extraction", {

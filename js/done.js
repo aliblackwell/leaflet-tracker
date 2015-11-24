@@ -1,6 +1,6 @@
 "use strict";
 
-var dataBase = new Firebase('https://sweltering-fire-9328.firebaseio.com/dfgdfg');
+var dataBase = new Firebase('FIREBASE_URL');
 var locationsRef, map, activity, drawingManager;
 var drawnShapes = [];
 
@@ -9,11 +9,11 @@ var campaigns = [
   {
     candidate: 'Kirsty Chestnutt',
     boundaryData: 'http://mapit.mysociety.org/area/144376.geojson',
-    locationData: 'https://sweltering-fire-9328.firebaseio.com/kch1'
+    locationData: 'FIREBASE_URL/kch1'
   },{
     candidate: 'John Foster',
     boundaryData: 'http://mapit.mysociety.org/area/2506.geojson',
-    locationData: 'https://sweltering-fire-9328.firebaseio.com/jf1'
+    locationData: 'FIREBASE_URL/jf1'
   }
 ];
 
